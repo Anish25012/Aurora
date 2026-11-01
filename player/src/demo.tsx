@@ -2,6 +2,7 @@
  * Design demo: the real components with sample data, no logins needed.
  * Dev only. Open http://127.0.0.1:5173/demo.html while `npm run dev` is running.
  * Not part of the production build (vite only builds index.html).
+ * Published as the live demo by .github/workflows/pages.yml (vite.demo.config.ts).
  *
  *   demo.html          Home
  *   demo.html#search   Search (with the playing row)
@@ -224,6 +225,7 @@ function Demo() {
           </button>
         ))}
         <div className="sidebar-footer">
+          <p style={{ fontSize: 12, opacity: 0.6, margin: '0 0 12px' }}>Demo with sample data. No audio.</p>
           <ThemeToggle theme={theme.theme} onChange={theme.setTheme} />
         </div>
       </nav>

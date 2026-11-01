@@ -9,9 +9,11 @@
 
 **A desktop music player with an Apple-inspired design that plays any song on Spotify, in full, inside its own interface.**
 
+**[Try the live demo](https://anish25012.github.io/Aurora/)** (sample data, no login, no audio)
+
 <img src="docs/aurora-demo.webp" alt="Aurora moving between Home, Search, album and artist pages, in dark and light themes" width="100%">
 
-<sub>Shown with the built-in demo page and sample data, so the album art is placeholder gradients.</sub>
+<sub>Shown with the demo page and sample data, so the album art is placeholder gradients.</sub>
 
 </div>
 
