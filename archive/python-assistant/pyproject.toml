@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aurora-assistant"
+version = "0.1.0"
+description = "An LLM-powered personal assistant for Spotify and Gmail, built on Claude tool use."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=1.17",
+    "pydantic>=2.7",
+    "python-dotenv>=1.0",
+    "rich>=13.7",
+    # 2.26+ uses Spotify's Feb-2026 endpoints (/playlists/{id}/items, /me/playlists).
+    "spotipy>=2.26",
+    # 1.37+ for st.fragment(run_every=...), used for the live now-playing panel.
+    "streamlit>=1.37",
+    # Windows ships no IANA timezone database, so zoneinfo needs this package
+    # to resolve "Europe/London". Harmless on Linux/macOS.
+    "tzdata>=2024.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+aurora = "assistant.main:main"
+
+[tool.setuptools.packages.find]
+include = ["assistant*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

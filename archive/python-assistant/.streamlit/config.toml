@@ -1,0 +1,15 @@
+[server]
+# Only accept connections from this machine. Streamlit's default is to listen on
+# every network interface, which would let anyone on the same Wi-Fi control your
+# Spotify (and, later, read and send your email).
+address = "127.0.0.1"
+port = 8501
+
+[browser]
+gatherUsageStats = false
+
+[theme]
+base = "dark"
+# Aurora's own accent colour. Deliberately not Spotify green, so the app can't
+# be mistaken for an official Spotify product.
+primaryColor = "#8B5CF6"
