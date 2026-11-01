@@ -1,0 +1,328 @@
+/* =================================================================== home */
+
+.home {
+  padding-top: 40px;
+}
+
+.home-header {
+  margin-bottom: 8px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.shelf {
+  margin-top: 34px;
+}
+
+.shelf-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.shelf-head h2 {
+  margin: 0;
+  font: 700 1.3125rem/1.2 var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.shelf-head p {
+  margin: 0;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+.shelf-error {
+  color: var(--text-3);
+  font-size: 0.875rem;
+}
+
+.attribution {
+  margin: 48px 0 0;
+  color: var(--text-3);
+  font-size: 0.75rem;
+}
+
+/* ---- "Jump back in" tiles ---- */
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 60px;
+  padding: 0 12px 0 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  box-shadow:
+    var(--shadow-art),
+    inset 0 0 0 1px var(--hairline);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--fast) var(--ease-out),
+    background-color var(--fast) ease,
+    box-shadow var(--base) var(--ease-out);
+}
+
+.tile:active {
+  transform: scale(0.985);
+}
+
+@media (hover: hover) {
+  .tile:hover {
+    background: var(--surface);
+    box-shadow:
+      var(--shadow-float),
+      inset 0 0 0 1px var(--hairline);
+    transform: translateY(-1px);
+  }
+}
+
+.tile-art {
+  width: 60px;
+  height: 60px;
+  flex: none;
+  object-fit: cover;
+  background: var(--press);
+}
+
+.tile-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding-right: 40px; /* room for the play badge */
+}
+
+.tile-title {
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tile-sub {
+  overflow: hidden;
+  color: var(--text-2);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.tile.is-current .tile-title,
+.card.is-current .card-title {
+  color: var(--accent);
+}
+
+.tile .play-badge {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  margin-top: -16px;
+}
+
+/* ---- media cards in a horizontal shelf ---- */
+
+.card-row {
+  display: grid;
+  grid-auto-columns: 168px;
+  grid-auto-flow: column;
+  gap: 20px;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 4px var(--gutter) 14px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-padding: 0 var(--gutter);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* Soft edges hint that the row scrolls sideways. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--gutter),
+    #000 calc(100% - var(--gutter)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--gutter),
+    #000 calc(100% - var(--gutter)),
+    transparent 100%
+  );
+}
+
+.card-row::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+.card-art-wrap {
+  position: relative;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.card-art {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  background: var(--press);
+  object-fit: cover;
+  box-shadow: var(--shadow-art);
+  transition:
+    transform var(--base) var(--ease-out),
+    box-shadow var(--base) var(--ease-out);
+}
+
+.card-art-empty {
+  color: var(--text-3);
+  font: 600 2.5rem/1 var(--font-display);
+}
+
+.card.is-round .card-art,
+.card-art.is-round {
+  border-radius: 50%;
+}
+
+.card.is-round {
+  text-align: center;
+}
+
+.card:active .card-art {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) {
+  /* Lift the cover and its record together. */
+  .card:hover .card-art-wrap {
+    transform: translateY(-3px);
+  }
+
+  .card:hover .card-art {
+    box-shadow: var(--shadow-float);
+  }
+}
+
+.card-title {
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.card-sub {
+  overflow: hidden;
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ---- the round play button that rises into view on hover ---- */
+
+.play-badge {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 50%, transparent);
+  color: #fff;
+  opacity: 0;
+  transform: translateY(6px) scale(0.9);
+  transition:
+    opacity var(--fast) ease,
+    transform var(--base) var(--ease-out);
+}
+
+.card .play-badge {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 40px;
+  height: 40px;
+}
+
+.card.is-round .play-badge {
+  right: 6px;
+  bottom: 6px;
+}
+
+.card:focus-visible .play-badge,
+.tile:focus-visible .play-badge {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) {
+  .card:hover .play-badge,
+  .tile:hover .play-badge {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- loading placeholders ---- */
+
+.skeleton-block {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--hover) 25%, var(--press) 50%, var(--hover) 75%);
+  background-size: 200% 100%;
+  box-shadow: none;
+  animation: shimmer 1.4s infinite linear;
+}
+
+.tile.skeleton-block {
+  height: 60px;
+}
+
+.skeleton-line {
+  display: block;
+  width: 80%;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 99px;
+  background: var(--press);
+}
+
+.skeleton-line.short {
+  width: 50%;
+}

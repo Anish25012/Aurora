@@ -1,0 +1,30 @@
+/* =================================================================== podcasts */
+
+.show-about {
+  max-width: 720px;
+  margin: 8px 0 22px;
+}
+
+.show-about h2 {
+  margin: 0 0 8px;
+  font: 700 1.25rem/1.2 var(--font-display);
+}
+
+.show-about p {
+  margin: 0 0 6px;
+  color: var(--text-2);
+  line-height: 1.55;
+  white-space: pre-line;
+}
+
+.show-about p.is-clamped {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.more-button {
+  display: block;
+  margin: 18px auto 0;
+}

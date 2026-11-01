@@ -1,0 +1,85 @@
+/* =================================================================== theme switch */
+
+/* Light | Dark: an Apple-style segmented control with a sliding thumb. */
+.segmented {
+  --index: 0;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  max-width: 176px;
+  margin-bottom: 12px;
+  padding: 2px;
+  border-radius: 9px;
+  background: var(--press);
+}
+
+.segmented-thumb {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  width: calc((100% - 4px) / 2);
+  border-radius: 7px;
+  background: var(--surface);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 0 0 0.5px var(--hairline);
+  transform: translateX(calc(var(--index) * 100%));
+  transition: transform 300ms var(--ease-out);
+}
+
+.segmented-option {
+  position: relative; /* above the thumb */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  height: 26px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-3);
+  cursor: pointer;
+  transition: color var(--fast) ease;
+}
+
+.segmented-option[aria-checked='true'] {
+  color: var(--text);
+}
+
+.segmented-option:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) {
+  .segmented-option:not([aria-checked='true']):hover {
+    color: var(--text-2);
+  }
+}
+
+/* ---- the reveal: the new theme spreads out in a circle from the clicked button ---- */
+
+/* During the circle reveal, turn off the browser's default cross-fade (the
+   circle is the whole animation), and pause ordinary colour transitions so
+   they don't fade at the same time. */
+.theme-reveal::view-transition-old(root),
+.theme-reveal::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-reveal *,
+.theme-reveal *::before,
+.theme-reveal *::after {
+  transition: none !important;
+}
+
+/* Without the reveal (reduced motion), the default cross-fade is gentle and quick. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 280ms;
+}

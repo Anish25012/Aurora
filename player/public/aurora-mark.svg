@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#07061a"/>
+      <stop offset="0.6" stop-color="#140f3a"/>
+      <stop offset="1" stop-color="#22144d"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2ee6c5" stop-opacity="0"/>
+      <stop offset="0.55" stop-color="#2ee6c5" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#9bffe9" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7c5cf6" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#8b6bff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#c9b8ff" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="pink" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9489a" stop-opacity="0"/>
+      <stop offset="0.6" stop-color="#ff5aa8" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#ffc2e0" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9ccff"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22"/></filter>
+    <!-- vertical rays: the uneven curtain texture of a real aurora -->
+    <filter id="streaks" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022 0.0006" numOctaves="2" seed="7"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  2.6 0 0 0 -0.55"/>
+    </filter>
+    <mask id="raymask"><rect width="1024" height="1024" fill="#fff" filter="url(#streaks)"/></mask>
+    <clipPath id="tile"><rect width="1024" height="1024" rx="228"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="1024" height="1024" fill="url(#sky)"/>
+    <!-- stars -->
+    <g fill="#fff">
+      <circle cx="170" cy="150" r="5" opacity=".8"/><circle cx="320" cy="92" r="3.5" opacity=".6"/>
+      <circle cx="812" cy="128" r="5" opacity=".85"/><circle cx="905" cy="250" r="3.5" opacity=".55"/>
+      <circle cx="560" cy="70" r="3" opacity=".5"/><circle cx="96" cy="300" r="3" opacity=".5"/>
+    </g>
+    <!-- aurora curtains -->
+    <g mask="url(#raymask)">
+      <path filter="url(#soft)" fill="url(#teal)" d="M-40 210 C 150 120, 300 430, 520 300 S 860 120, 1080 260 L 1080 600 C 880 470, 720 690, 500 600 S 140 470, -40 620 Z"/>
+      <path filter="url(#soft)" fill="url(#violet)" d="M-40 400 C 200 280, 380 560, 580 430 S 900 290, 1080 420 L 1080 730 C 880 640, 700 790, 520 720 S 160 630, -40 750 Z"/>
+      <path filter="url(#soft)" fill="url(#pink)" d="M-40 520 C 180 470, 380 610, 600 560 S 900 500, 1080 580 L 1080 780 C 860 740, 720 810, 520 790 S 160 740, -40 800 Z"/>
+    </g>
+    <!-- glow where the light meets the horizon -->
+    <ellipse cx="512" cy="760" rx="420" ry="70" fill="#b49cff" opacity=".45" filter="url(#glow)"/>
+    <!-- ground -->
+    <rect y="790" width="1024" height="240" fill="#07061a"/>
+    <!-- sound-wave skyline -->
+    <g fill="url(#bar)">
+      <rect x="236" y="700" width="48" height="140" rx="24"/>
+      <rect x="320" y="610" width="48" height="230" rx="24"/>
+      <rect x="404" y="470" width="48" height="370" rx="24"/>
+      <rect x="488" y="540" width="48" height="300" rx="24"/>
+      <rect x="572" y="420" width="48" height="420" rx="24"/>
+      <rect x="656" y="580" width="48" height="260" rx="24"/>
+      <rect x="740" y="680" width="48" height="160" rx="24"/>
+    </g>
+    <!-- reflection -->
+    <g fill="#c9b8ff" opacity=".18">
+      <rect x="236" y="852" width="48" height="60" rx="24"/><rect x="320" y="852" width="48" height="90" rx="24"/>
+      <rect x="404" y="852" width="48" height="130" rx="24"/><rect x="488" y="852" width="48" height="110" rx="24"/>
+      <rect x="572" y="852" width="48" height="140" rx="24"/><rect x="656" y="852" width="48" height="100" rx="24"/>
+      <rect x="740" y="852" width="48" height="70" rx="24"/>
+    </g>
+  </g>
+</svg>

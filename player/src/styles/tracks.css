@@ -1,0 +1,336 @@
+/* =================================================================== search */
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 520px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: var(--press);
+  color: var(--text-3);
+  transition:
+    background-color var(--fast) ease,
+    box-shadow var(--fast) ease;
+}
+
+.search-field:focus-within {
+  background: var(--surface);
+  box-shadow:
+    0 0 0 1px var(--hairline),
+    0 0 0 4px var(--accent-soft);
+  color: var(--text-2);
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+
+.search-field input::placeholder {
+  color: var(--text-3);
+}
+
+/* Hide the browser's own clear button; it clashes with the minimal field. */
+.search-field input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.hint {
+  margin: 28px 0 0;
+  color: var(--text-3);
+  font-size: 0.875rem;
+  letter-spacing: 0.005em;
+}
+
+/* =================================================================== track list */
+
+.track-list {
+  margin: 6px calc(-1 * 10px) 0;
+  padding: 0;
+  list-style: none;
+  animation: fade-up var(--base) var(--ease-out);
+}
+
+.track-list li + li .track-row::before {
+  /* Hairline between rows, inset to start under the text (as in Apple Music). */
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 10px;
+  left: 96px; /* row padding + artwork column + gap */
+  height: 1px;
+  background: var(--hairline);
+  transition: opacity var(--fast) ease;
+}
+
+.track-row {
+  position: relative;
+  display: grid;
+  /* 70px = 44px sleeve + room for the record to slide half-way out. */
+  grid-template-columns: 70px minmax(0, 1.3fr) minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--fast) ease,
+    transform var(--fast) var(--ease-out);
+}
+
+/* Instant press feedback: a slight sink the moment the pointer goes down. */
+.track-row:active {
+  background: var(--press);
+  transform: scale(0.992);
+}
+
+@media (hover: hover) {
+  .track-row:hover {
+    background: var(--hover);
+  }
+
+  /* Hide the hairlines around a highlighted row, so the highlight reads as one clean pill. */
+  .track-row:hover::before,
+  .track-list li:hover + li .track-row::before {
+    opacity: 0;
+  }
+}
+
+.artwork-wrap {
+  position: relative;
+  width: 44px;
+  height: 44px;
+}
+
+.artwork {
+  position: relative;
+  z-index: 1; /* the sleeve sits in front of its record */
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-xs);
+  background: var(--press);
+  object-fit: cover;
+  box-shadow: var(--shadow-art);
+}
+
+.artwork-overlay {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-xs);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  opacity: 0;
+  transition: opacity var(--fast) ease;
+}
+
+/* The playing song always shows its equaliser; other rows reveal ▶ on hover. */
+.track-row.is-current .artwork-overlay {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .track-row:hover .artwork-overlay {
+    opacity: 1;
+  }
+}
+
+.track-text {
+  min-width: 0;
+}
+
+.track-title,
+.track-sub,
+.track-album {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.track-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  transition: color var(--fast) ease;
+}
+
+.track-row.is-current .track-title {
+  color: var(--accent);
+}
+
+.track-sub,
+.track-album,
+.track-time {
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  letter-spacing: 0.005em; /* small type wants slightly looser tracking */
+}
+
+.track-time {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.explicit {
+  display: inline-grid;
+  place-items: center;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  border-radius: 3px;
+  background: var(--text-3);
+  color: var(--bg);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+/* ---- the record behind each sleeve ---- */
+
+.vinyl {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background:
+    /* light catching the surface: two soft highlights opposite each other */
+    conic-gradient(
+      from 20deg,
+      transparent 0 6%,
+      rgba(255, 255, 255, 0.16) 11%,
+      transparent 17% 50%,
+      rgba(255, 255, 255, 0.1) 61%,
+      transparent 67%
+    ),
+    /* fine grooves */ repeating-radial-gradient(circle, #121214 0 1px, #232327 1px 2px);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: transform 340ms var(--ease-out);
+}
+
+/* On dark backgrounds a black record needs a faint rim of light to read as an object. */
+:root[data-theme='dark'] .vinyl {
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* The centre label shows the album's own artwork, with a spindle hole. */
+.vinyl-label {
+  position: absolute;
+  inset: 30%;
+  border-radius: 50%;
+  background: #3a3a40 center / cover;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.vinyl-label::after {
+  content: '';
+  position: absolute;
+  inset: 40%;
+  border-radius: 50%;
+  background: #121214;
+}
+
+/* Hover: the record rolls part-way out of its sleeve. */
+@media (hover: hover) {
+  .track-row:hover .vinyl {
+    transform: translateX(24px) rotate(40deg);
+  }
+}
+
+/* The playing song keeps its record out... */
+.track-row.is-current .vinyl {
+  transform: translateX(24px);
+}
+
+/* ...and spins it at 33 1/3 rpm (1.8s per turn) while playing. Only the label
+   visibly turns (grooves are concentric), so the highlights stay still,
+   just like light on a real spinning record. */
+.track-row.is-playing .vinyl-label {
+  animation: spin 1.8s linear infinite;
+}
+
+/* ---- equaliser on the playing row ---- */
+
+.eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.eq i {
+  width: 3px;
+  height: 100%;
+  border-radius: 1px;
+  background: currentColor;
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+
+.eq i:nth-child(2) {
+  animation-duration: 0.7s;
+  animation-delay: -0.3s;
+}
+
+.eq i:nth-child(3) {
+  animation-duration: 1.05s;
+  animation-delay: -0.5s;
+}
+
+.eq.is-paused i {
+  animation-play-state: paused;
+}
+
+@keyframes eq {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+/* ---- loading ---- */
+
+.skeleton {
+  height: 60px;
+  margin-top: 4px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--hover) 25%, var(--press) 50%, var(--hover) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}

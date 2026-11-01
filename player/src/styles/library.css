@@ -1,0 +1,183 @@
+/* =================================================================== library */
+
+/* ---- ♥ like buttons ---- */
+.like-button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  color: var(--text-3);
+  transition:
+    color var(--fast) ease,
+    opacity var(--fast) ease;
+}
+
+.like-button.is-liked {
+  color: var(--accent-2);
+}
+
+/* A little pop when a song is liked (the icon remounts on change). */
+.like-button.is-liked svg {
+  animation: heart-pop 320ms var(--ease-out);
+}
+
+@keyframes heart-pop {
+  40% {
+    transform: scale(1.3);
+  }
+}
+
+@media (hover: hover) {
+  .like-button:hover {
+    color: var(--text);
+  }
+
+  .like-button.is-liked:hover {
+    color: var(--accent-2);
+  }
+}
+
+/* In song rows the heart appears on hover, but a liked song always shows it. */
+.track-row .like-button:not(.is-liked) {
+  opacity: 0;
+}
+
+.track-row:focus-within .like-button,
+.track-row.is-current .like-button {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .track-row:hover .like-button {
+    opacity: 1;
+  }
+}
+
+/* Room in the time column for ♥, the duration and ⋯. */
+.track-row {
+  grid-template-columns: 70px minmax(0, 1.3fr) minmax(0, 1fr) 104px;
+}
+
+.track-list.no-album .track-row {
+  grid-template-columns: 70px minmax(0, 1fr) 104px;
+}
+
+.track-list.is-numbered .track-row {
+  grid-template-columns: 22px 70px minmax(0, 1.3fr) minmax(0, 1fr) 104px;
+}
+
+.track-list.is-numbered.no-album .track-row {
+  grid-template-columns: 22px 70px minmax(0, 1fr) 104px;
+}
+
+.queue-panel .track-row {
+  grid-template-columns: 70px minmax(0, 1fr) 96px;
+}
+
+.np-like {
+  position: relative;
+  flex: none;
+}
+
+/* ---- Follow / Following ---- */
+.album-hero-text .pill-button + .pill-button,
+.artist-hero-text .pill-button + .pill-button {
+  margin-left: 10px;
+}
+
+.pill-button.outline {
+  border: 1px solid color-mix(in srgb, var(--text) 30%, transparent);
+  background: transparent;
+  color: var(--text);
+  box-shadow: none;
+}
+
+.pill-button.outline.is-on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---- Liked Songs ---- */
+.liked-cover {
+  background: linear-gradient(140deg, #5b3fd6, var(--accent) 45%, var(--accent-2));
+  color: #fff;
+}
+
+.liked-cover svg {
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.25));
+}
+
+/* ---- Your Library ---- */
+.library-page {
+  padding-top: 40px;
+}
+
+.liked-tile {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 460px;
+  margin-bottom: 24px;
+  padding: 14px;
+  border: 0;
+  border-radius: var(--radius);
+  background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 22%, var(--surface)), var(--surface));
+  box-shadow:
+    var(--shadow-art),
+    inset 0 0 0 1px var(--hairline);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform var(--fast) var(--ease-out),
+    box-shadow var(--base) var(--ease-out);
+}
+
+.liked-tile:active {
+  transform: scale(0.985);
+}
+
+@media (hover: hover) {
+  .liked-tile:hover {
+    box-shadow:
+      var(--shadow-float),
+      inset 0 0 0 1px var(--hairline);
+    transform: translateY(-1px);
+  }
+}
+
+.liked-tile-art {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  flex: none;
+  border-radius: 10px;
+  background: linear-gradient(140deg, #5b3fd6, var(--accent) 45%, var(--accent-2));
+  color: #fff;
+  box-shadow: var(--shadow-art);
+}
+
+.liked-tile-title {
+  display: block;
+  font: 700 1.25rem/1.2 var(--font-display);
+  letter-spacing: -0.015em;
+}
+
+.liked-tile-sub {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-2);
+  font-size: 0.8125rem;
+}
+
+/* Title with the "Save my library" button beside it. */
+.library-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,338 @@
+/* =================================================================== records on Home */
+/* The same record-out-of-its-sleeve effect as the rows in Search, on cards and
+   tiles. Hover: it slides out. Leave: it slides back in. Playing: it stays out
+   and the label spins. */
+
+/* Shared look: grooves, two highlights, and the cover as the centre label. */
+.card-vinyl,
+.tile-vinyl {
+  position: absolute;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 20deg,
+      transparent 0 6%,
+      rgba(255, 255, 255, 0.15) 11%,
+      transparent 17% 50%,
+      rgba(255, 255, 255, 0.09) 61%,
+      transparent 67%
+    ),
+    repeating-radial-gradient(circle, #111113 0 1px, #222226 1px 2px);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.3),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  /* Slower and smoother than a hover highlight: a record has weight. */
+  transition: transform 480ms var(--ease-out);
+}
+
+.card-vinyl-label,
+.tile-vinyl-label {
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: #3a3a40 center / cover;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.card-vinyl-label::after,
+.tile-vinyl-label::after {
+  content: '';
+  position: absolute;
+  inset: 42%;
+  border-radius: 50%;
+  background: #111113;
+}
+
+/* ---- cards (On repeat, playlists, albums) ---- */
+
+.card-vinyl {
+  top: 5%;
+  left: 5%;
+  width: 90%;
+  height: 90%;
+}
+
+/* The cover sits in front of its record; the play button in front of both. */
+.card .card-art {
+  position: relative;
+  z-index: 1;
+}
+
+.card .play-badge {
+  z-index: 2;
+}
+
+.card-art-wrap {
+  transition: transform var(--base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  /* The hovered card rises above its neighbours, so its record can slide over them. */
+  .card:hover {
+    position: relative;
+    z-index: 3;
+  }
+
+  .card:hover .card-vinyl {
+    transform: translateX(40%) rotate(35deg);
+  }
+}
+
+.card.is-current {
+  position: relative;
+  z-index: 2;
+}
+
+.card.is-current .card-vinyl {
+  transform: translateX(40%);
+}
+
+.card.is-playing .card-vinyl-label {
+  animation: spin 1.8s linear infinite;
+}
+
+/* ---- "Jump back in" tiles ---- */
+
+.tile-art-wrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex: none;
+}
+
+.tile-art {
+  position: relative;
+  z-index: 1;
+}
+
+.tile-vinyl {
+  top: 4px;
+  left: 4px;
+  width: 52px;
+  height: 52px;
+}
+
+/* The song name steps aside to make room for the record. */
+.tile-text {
+  transition: transform 480ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .tile:hover .tile-vinyl {
+    transform: translateX(26px) rotate(35deg);
+  }
+
+  .tile:hover .tile-text {
+    transform: translateX(26px);
+  }
+}
+
+.tile.is-current .tile-vinyl {
+  transform: translateX(26px);
+}
+
+.tile.is-current .tile-text {
+  transform: translateX(26px);
+}
+
+.tile.is-playing .tile-vinyl-label {
+  animation: spin 1.8s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* No sliding on hover; the playing card/tile still shows its record (without spinning). */
+  .card:hover .card-vinyl,
+  .tile:hover .tile-vinyl,
+  .tile:hover .tile-text {
+    transform: none;
+  }
+
+  .card.is-current .card-vinyl {
+    transform: translateX(40%);
+  }
+
+  .tile.is-current .tile-vinyl,
+  .tile.is-current .tile-text {
+    transform: translateX(26px);
+  }
+}
+
+/* "Show more" under the More by <artist> list. */
+.show-more {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 14px auto 0;
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 99px;
+  background: var(--press);
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--fast) ease,
+    transform var(--fast) var(--ease-out);
+}
+
+.show-more:active {
+  transform: scale(0.96);
+}
+
+@media (hover: hover) {
+  .show-more:hover {
+    background: color-mix(in srgb, var(--press) 60%, var(--text) 8%);
+  }
+}
+
+/* Playlist page details. */
+.meta-strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.album-description {
+  display: -webkit-box;
+  max-width: 560px;
+  margin-top: 6px;
+  overflow: hidden;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.notice-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 620px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  background: var(--hover);
+  color: var(--text-2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.notice-card p {
+  margin: 0;
+}
+
+.notice-tip {
+  margin-top: 8px !important;
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+.notice-card svg {
+  flex: none;
+  margin-top: 3px;
+}
+
+/* Filter chips (Discography: All / Albums / Singles & EPs / Compilations). */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 99px;
+  background: var(--press);
+  color: var(--text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--fast) ease,
+    color var(--fast) ease,
+    transform var(--fast) var(--ease-out);
+}
+
+.chip:active {
+  transform: scale(0.95);
+}
+
+.chip[aria-selected='true'] {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.chip-count {
+  opacity: 0.55;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (hover: hover) {
+  .chip:not([aria-selected='true']):hover {
+    background: color-mix(in srgb, var(--press) 60%, var(--text) 8%);
+  }
+}
+
+/* =================================================================== song rows: links */
+/* The row's invisible play button covers the whole row; names sit above it as links. */
+
+.track-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  padding: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.track-hit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* Everything visible lets clicks fall through to the play button, except links. */
+.track-row > :not(.track-hit) {
+  pointer-events: none;
+}
+
+.track-row .inline-link {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.track-row {
+  cursor: pointer;
+}
+
+/* Quiet links: same colour as the text around them until hovered. */
+.inline-link.subtle {
+  color: inherit;
+  font-weight: inherit;
+}
+
+@media (hover: hover) {
+  .inline-link.subtle:hover {
+    color: var(--text);
+    text-decoration: underline;
+  }
+}
+
+.np-track .inline-link {
+  max-width: 100%;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.via-spotify:hover {
+  color: var(--text-2);
+}

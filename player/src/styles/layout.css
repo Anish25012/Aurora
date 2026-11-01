@@ -1,0 +1,127 @@
+/* =================================================================== layout */
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  /* One row exactly the window's height: each column scrolls inside it, so the
+     end of a long page is always reachable above the player bar. */
+  grid-template-rows: minmax(0, 1fr);
+  height: 100%;
+  overflow: hidden;
+}
+
+.sidebar {
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 26px 12px calc(var(--player-height) + 16px);
+  border-right: 1px solid var(--hairline);
+  /* The heavier, structural material: it frames the app rather than drawing the eye. */
+  background: var(--sidebar);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px 24px;
+  font: 600 1.0625rem/1 var(--font-display);
+  letter-spacing: -0.01em;
+}
+
+.brand-mark {
+  display: block;
+  flex: none;
+  border-radius: 22.3%; /* matches the artwork's corner radius, so shadows follow its rounded shape */
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--fast) ease;
+}
+
+.nav-item:active {
+  background: var(--press);
+}
+
+.nav-item[aria-current='page'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  .nav-item:not([aria-current='page']):hover {
+    background: var(--hover);
+  }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 0 10px;
+}
+
+.link-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--text-3);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color var(--fast) ease;
+}
+
+@media (hover: hover) {
+  .link-button:hover {
+    color: var(--text-2);
+  }
+}
+
+.main {
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 var(--gutter) calc(var(--player-height) + 40px);
+  scroll-padding-top: 140px;
+}
+
+/* =================================================================== page header */
+
+.page-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 40px var(--gutter) 18px;
+  /* Thin glass: mostly see-through, so the ambient glow carries on behind it
+     without a seam, while the blur keeps the title legible over scrolling rows. */
+  background: color-mix(in srgb, var(--bg) 38%, transparent);
+  backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  /* Scroll-edge effect: the header's bottom edge fades out, so content
+     dissolves under it rather than meeting a hard divider line. */
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 14px), transparent);
+}
+
+.page-title {
+  margin: 0 0 18px;
+  font: 700 2rem/1.1 var(--font-display);
+  letter-spacing: -0.022em; /* large type wants tighter tracking */
+}

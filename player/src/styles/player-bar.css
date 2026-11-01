@@ -1,0 +1,288 @@
+/* =================================================================== player bar */
+
+.player-bar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 1.3fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  height: var(--player-height);
+  padding: 0 22px;
+  border-top: 1px solid var(--hairline);
+  /* Solid, so song lists never show through behind the controls. A soft
+     upward shadow lifts it off the page, and a faint highlight on the top edge
+     keeps it from looking flat. */
+  background: var(--player-bg);
+  box-shadow:
+    0 -10px 30px var(--player-shadow),
+    inset 0 1px 0 var(--glass-edge);
+}
+
+.np-track {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.np-track .artwork {
+  width: 48px;
+  height: 48px;
+  flex: none;
+}
+
+/* New artwork arrives softly instead of snapping in. */
+.artwork-fade {
+  animation: art-in var(--base) var(--ease-out);
+}
+
+@keyframes art-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.np-track .track-title {
+  font-size: 0.875rem;
+}
+
+.np-empty {
+  color: var(--text-3);
+  font-size: 0.8125rem;
+}
+
+.np-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    transform var(--fast) var(--ease-out),
+    background-color var(--fast) ease,
+    opacity var(--fast) ease;
+}
+
+.icon-button:active:not(:disabled) {
+  transform: scale(0.88);
+  background: var(--press);
+}
+
+.icon-button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+@media (hover: hover) {
+  .icon-button:hover:not(:disabled) {
+    background: var(--hover);
+  }
+}
+
+.icon-button.primary {
+  width: 38px;
+  height: 38px;
+  background: var(--text);
+  color: var(--bg);
+}
+
+.icon-button.primary:active:not(:disabled) {
+  transform: scale(0.9);
+  background: var(--text);
+}
+
+@media (hover: hover) {
+  .icon-button.primary:hover:not(:disabled) {
+    transform: scale(1.06);
+    background: var(--text);
+  }
+}
+
+.icon-button.subtle {
+  color: var(--text-2);
+}
+
+.progress {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  color: var(--text-3);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.progress span:last-child {
+  text-align: right;
+}
+
+/* ---- sliders: hairline at rest, thicker with a knob on hover (as in Apple Music) ---- */
+
+.slider {
+  --pct: 0%;
+  --track: 3px;
+  width: 100%;
+  height: 16px; /* generous hit area; the visible track is drawn thinner below */
+  margin: 0;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-runnable-track {
+  height: var(--track);
+  border-radius: 99px;
+  background: linear-gradient(to right, var(--text-2) var(--pct), var(--press) var(--pct));
+  transition: height var(--fast) var(--ease-out);
+}
+
+.slider::-moz-range-track {
+  height: var(--track);
+  border-radius: 99px;
+  background: linear-gradient(to right, var(--text-2) var(--pct), var(--press) var(--pct));
+}
+
+.slider::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: calc((var(--track) - 12px) / 2);
+  border-radius: 50%;
+  background: var(--text);
+  box-shadow: var(--shadow-art);
+  opacity: 0;
+  transform: scale(0.6);
+  appearance: none;
+  transition:
+    opacity var(--fast) ease,
+    transform var(--fast) var(--ease-out);
+}
+
+.slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--text);
+  opacity: 0;
+}
+
+.slider:disabled {
+  cursor: default;
+}
+
+.slider:not(:disabled):active,
+.slider:focus-visible {
+  --track: 5px;
+}
+
+@media (hover: hover) {
+  .slider:not(:disabled):hover {
+    --track: 5px;
+  }
+
+  .slider:not(:disabled):hover::-webkit-slider-runnable-track {
+    background: linear-gradient(to right, var(--text) var(--pct), var(--press) var(--pct));
+  }
+
+  .slider:not(:disabled):hover::-webkit-slider-thumb {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .slider:not(:disabled):hover::-moz-range-thumb {
+    opacity: 1;
+  }
+}
+
+.slider:not(:disabled):active::-webkit-slider-thumb,
+.slider:focus-visible::-webkit-slider-thumb {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.np-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  color: var(--text-2);
+}
+
+.np-right .slider {
+  max-width: 96px;
+}
+
+.via-spotify {
+  margin-right: 10px;
+  color: var(--text-3);
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+}
+
+/* =================================================================== ambient glow */
+/* The current album art, enlarged and heavily blurred, glowing behind the top
+   of the page. It fades into the background colour further down. */
+
+.ambient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  height: 460px;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 100%);
+}
+
+.ambient img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.32;
+  filter: blur(80px) saturate(1.6);
+  transform: scale(1.4);
+  animation: ambient-in 900ms ease both; /* a new song washes its colours in gently */
+}
+
+:root[data-theme='dark'] .ambient img {
+  opacity: 0.42;
+}
+
+@keyframes ambient-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Content sits above the glow. */
+.main > :not(.ambient) {
+  position: relative;
+  z-index: 1;
+}

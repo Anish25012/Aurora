@@ -1,0 +1,21 @@
+/* Aurora's styles, one file per area. The order matters: later files build on
+   (and sometimes override) earlier ones, as when this was a single file. */
+@import './styles/base.css';
+@import './styles/layout.css';
+@import './styles/tracks.css';
+@import './styles/player-bar.css';
+@import './styles/home.css';
+@import './styles/artist.css';
+@import './styles/theme-switch.css';
+@import './styles/album.css';
+@import './styles/records.css';
+@import './styles/playback.css';
+@import './styles/library.css';
+@import './styles/playlists.css';
+@import './styles/search.css';
+@import './styles/now-playing.css';
+@import './styles/podcasts.css';
+@import './styles/discovery.css';
+@import './styles/screens.css';
+@import './styles/accessibility.css';
+@import './styles/small-screens.css';

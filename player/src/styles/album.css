@@ -1,0 +1,173 @@
+/* =================================================================== album page */
+
+.album-page {
+  padding-top: 28px;
+  animation: fade-up var(--base) var(--ease-out);
+}
+
+.album-hero {
+  display: flex;
+  align-items: flex-end;
+  gap: 36px;
+  margin: 18px 0 12px;
+}
+
+/* The cover, with a full-size record tucked behind it. */
+.album-art {
+  --cover: 232px;
+  position: relative;
+  flex: none;
+  width: calc(var(--cover) + var(--cover) * 0.56); /* room for the record to slide out */
+  height: var(--cover);
+}
+
+.album-cover {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--cover);
+  height: var(--cover);
+  border-radius: 10px;
+  background: var(--press);
+  object-fit: cover;
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+  animation: art-in 500ms var(--ease-out) both;
+}
+
+.album-cover-empty {
+  color: var(--text-3);
+  font: 700 4rem/1 var(--font-display);
+}
+
+.album-vinyl {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: calc(var(--cover) - 12px);
+  height: calc(var(--cover) - 12px);
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 20deg,
+      transparent 0 6%,
+      rgba(255, 255, 255, 0.14) 11%,
+      transparent 17% 50%,
+      rgba(255, 255, 255, 0.09) 61%,
+      transparent 67%
+    ),
+    repeating-radial-gradient(circle, #111113 0 1.5px, #212125 1.5px 3px);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  /* Slides out of the sleeve as the page opens, after the cover lands. */
+  transform: translateX(56%);
+  animation: record-out 900ms var(--ease-out) 250ms both;
+}
+
+@keyframes record-out {
+  from {
+    transform: translateX(0) rotate(-40deg);
+  }
+}
+
+.album-vinyl-label {
+  position: absolute;
+  inset: 33%;
+  border-radius: 50%;
+  background: #3a3a40 center / cover;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.album-vinyl-label::after {
+  content: '';
+  position: absolute;
+  inset: 44%;
+  border-radius: 50%;
+  background: #111113;
+}
+
+/* 33⅓ rpm while this album plays. Only the label visibly turns (the grooves
+   are concentric), so the shine stays put, like light on a real record. */
+.album-art.is-spinning .album-vinyl-label {
+  animation: spin 1.8s linear infinite;
+}
+
+.album-hero-text {
+  min-width: 0;
+  padding-bottom: 6px;
+}
+
+.album-title {
+  margin: 0 0 10px;
+  font: 800 clamp(2rem, 4vw, 3.25rem) / 1.05 var(--font-display);
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.album-meta {
+  margin: 0 0 22px;
+  color: var(--text-2);
+  font-size: 0.9375rem;
+}
+
+.album-meta .dot {
+  margin: 0 7px;
+  color: var(--text-3);
+}
+
+.inline-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-underline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .inline-link:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Track rows without the album column (every song is on this album). */
+.track-list.no-album .track-row {
+  grid-template-columns: 70px minmax(0, 1fr) 52px;
+}
+
+.track-list.is-numbered.no-album .track-row {
+  grid-template-columns: 22px 70px minmax(0, 1fr) 52px;
+}
+
+/* ---- the Albums tab: a grid of saved albums ---- */
+
+.albums-page {
+  padding-top: 40px;
+}
+
+.album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 26px 20px;
+}
+
+@media (max-width: 760px) {
+  .album-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .album-art {
+    --cover: 180px;
+  }
+
+  .album-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}

@@ -1,0 +1,194 @@
+/* =================================================================== artist page */
+
+.artist {
+  padding-top: 28px;
+  animation: fade-up var(--base) var(--ease-out);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: -6px;
+  padding: 6px 10px 6px 4px;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--fast) ease,
+    color var(--fast) ease;
+}
+
+.back-button:active {
+  background: var(--press);
+}
+
+@media (hover: hover) {
+  .back-button:hover {
+    background: var(--hover);
+    color: var(--text);
+  }
+}
+
+.artist-hero {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  margin: 18px 0 8px;
+}
+
+.artist-photo {
+  display: grid;
+  place-items: center;
+  width: 190px;
+  height: 190px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--press);
+  object-fit: cover;
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.12);
+  /* The photo settles into place as the page opens. */
+  animation: art-in 500ms var(--ease-out) both;
+}
+
+.artist-photo-empty {
+  color: var(--text-3);
+  font: 700 4rem/1 var(--font-display);
+}
+
+.artist-hero-text {
+  min-width: 0;
+  padding-bottom: 6px;
+}
+
+.artist-name {
+  margin: 0 0 20px;
+  overflow: hidden;
+  font: 800 clamp(2.5rem, 5vw, 4rem) / 1 var(--font-display);
+  letter-spacing: -0.035em; /* very large type wants very tight tracking */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pill-button.accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent) 40%, transparent);
+  color: #fff;
+}
+
+/* ---- numbered rows (top songs) ---- */
+
+.track-list.is-numbered .track-row {
+  grid-template-columns: 22px 70px minmax(0, 1.3fr) minmax(0, 1fr) 52px;
+}
+
+.track-list.is-numbered li + li .track-row::before {
+  left: 134px; /* rank + gap + artwork column + gap, so hairlines start under the text */
+}
+
+.track-rank {
+  color: var(--text-3);
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  text-align: right;
+  transition: color var(--fast) ease;
+}
+
+.track-row.is-current .track-rank {
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  .track-row:hover .track-rank {
+    color: var(--text);
+  }
+}
+
+@media (max-width: 760px) {
+  .artist-hero {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .artist-photo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .track-list.is-numbered .track-row {
+    grid-template-columns: 22px 70px minmax(0, 1fr) 44px;
+  }
+}
+
+/* =================================================================== playing state */
+/* Whatever is playing shows it: its button stays visible and shows pause (||). */
+
+.card.is-current .play-badge,
+.tile.is-current .play-badge {
+  opacity: 1;
+  transform: none;
+}
+
+.play-badge.is-playing {
+  /* A soft breathing glow, so the playing card reads as "live" at a glance. */
+  animation: badge-glow 2.4s ease-in-out infinite;
+}
+
+@keyframes badge-glow {
+  50% {
+    box-shadow: 0 4px 22px color-mix(in srgb, var(--accent) 75%, transparent);
+  }
+}
+
+/* The playing row: the equaliser at rest; hovering shows what a click does (pause/resume). */
+.artwork-overlay .overlay-action {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity var(--fast) ease;
+}
+
+@media (hover: hover) {
+  .track-row.is-current:hover .overlay-action {
+    opacity: 1;
+  }
+
+  .track-row.is-current:hover .eq {
+    opacity: 0;
+  }
+}
+
+.eq {
+  transition: opacity var(--fast) ease;
+}
+
+/* The big Play/Pause button: the icon pops as it swaps, and the button settles. */
+.pill-icon {
+  display: grid;
+  place-items: center;
+  animation: icon-pop 260ms var(--ease-out);
+}
+
+@keyframes icon-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.5) rotate(-12deg);
+  }
+}
+
+.pill-button.accent.is-playing {
+  background: color-mix(in srgb, var(--accent) 88%, var(--text));
+}

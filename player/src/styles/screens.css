@@ -1,0 +1,313 @@
+/* =================================================================== full-page screens */
+
+.center-screen {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+}
+
+.center-card {
+  max-width: 380px;
+  animation: fade-up 400ms var(--ease-out);
+}
+
+.center-card .brand-mark {
+  margin: 0 auto 24px;
+  box-shadow: var(--shadow-float);
+}
+
+.center-card h1 {
+  margin: 0 0 10px;
+  font: 700 2.5rem/1.05 var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+.center-card p {
+  margin: 0 0 30px;
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.center-card code {
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--press);
+  font-size: 0.8125rem;
+}
+
+.pill-button {
+  height: 44px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 99px;
+  background: var(--text);
+  color: var(--bg);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform var(--fast) var(--ease-out),
+    opacity var(--fast) ease;
+}
+
+.pill-button:active {
+  transform: scale(0.96);
+}
+
+@media (hover: hover) {
+  .pill-button:hover {
+    opacity: 0.88;
+  }
+}
+
+.banner {
+  max-width: 520px;
+  margin: 16px 0 0;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  font-size: 0.875rem;
+}
+
+.banner.error {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  color: var(--danger);
+}
+
+.center-card .banner {
+  margin: 20px auto 0;
+}
+
+/* =================================================================== toast */
+
+.toast {
+  position: fixed;
+  bottom: calc(var(--player-height) + 16px);
+  left: 50%;
+  z-index: 70; /* above the full-screen player too */
+  padding: 9px 16px;
+  border-radius: 99px;
+  background: var(--glass);
+  box-shadow:
+    var(--shadow-float),
+    inset 0 0 0 1px var(--hairline);
+  font-size: 0.8125rem;
+  letter-spacing: 0.005em;
+  transform: translateX(-50%);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  animation: toast-in var(--base) var(--ease-out);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px) scale(0.98);
+  }
+}
+
+/* =================================================================== launch splash */
+/*
+ * Layers, back to front: aurora glow -> soft radial glow -> two pulse rings ->
+ * rotating halo ring -> logo -> wordmark. Everything animates transform,
+ * opacity and filter only, so it stays smooth on the compositor.
+ */
+
+.splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  overflow: hidden;
+  background: var(--bg);
+  cursor: default;
+}
+
+/* Exit: the screen "materialises away": a slight zoom, blur and fade,
+   revealing the app that has been loading underneath. */
+.splash.is-exiting {
+  pointer-events: none;
+  animation: splash-out 450ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes splash-out {
+  to {
+    opacity: 0;
+    transform: scale(1.06);
+    filter: blur(12px);
+  }
+}
+
+/* Northern lights: three soft colour clouds that rise and drift behind the logo. */
+.splash-aurora {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(38% 30% at 35% 45%, color-mix(in srgb, var(--accent) 38%, transparent), transparent 70%),
+    radial-gradient(34% 28% at 65% 55%, color-mix(in srgb, var(--accent-2) 30%, transparent), transparent 70%),
+    radial-gradient(30% 22% at 52% 36%, rgba(56, 189, 248, 0.22), transparent 70%);
+  filter: blur(48px);
+  animation: aurora-rise 1.9s var(--ease-out) both;
+}
+
+@keyframes aurora-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8%) scale(0.92) rotate(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.splash-emblem {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 220px;
+  height: 220px;
+}
+
+.splash-emblem > * {
+  grid-area: 1 / 1; /* stack every layer in the same cell, centred */
+}
+
+/* A soft glow that breathes once as the logo lands. */
+.splash-glow {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 42%, transparent), transparent);
+  animation: glow 1.5s var(--ease-out) both;
+}
+
+@keyframes glow {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+}
+
+/* Rings that pulse outward from the logo and fade, one after the other. */
+.splash-ring {
+  width: 104px;
+  height: 104px;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 50%;
+  opacity: 0;
+  animation: ripple 1.5s var(--ease-out) 0.25s infinite;
+}
+
+.splash-ring + .splash-ring {
+  animation-delay: 0.75s;
+}
+
+@keyframes ripple {
+  from {
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.05);
+  }
+}
+
+/* The halo: a bright arc that sweeps around the logo. A conic gradient,
+   masked down to a thin ring, then rotated. */
+.splash-halo {
+  width: 136px;
+  height: 136px;
+  border-radius: 50%;
+  /* A comet: transparent most of the way round, brightening into a vivid head.
+     Under it, a faint full ring acts as the track the comet travels along. */
+  background:
+    conic-gradient(
+      from 0deg,
+      transparent 0deg 170deg,
+      color-mix(in srgb, var(--accent) 50%, transparent) 260deg,
+      var(--accent-2) 340deg,
+      #fff 356deg,
+      transparent 360deg
+    ),
+    color-mix(in srgb, var(--accent) 16%, transparent);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));
+  filter: drop-shadow(0 0 6px var(--accent-2)) drop-shadow(0 0 14px var(--accent));
+  animation:
+    halo-in 500ms var(--ease-out) 0.15s both,
+    spin 1.1s linear infinite;
+}
+
+@keyframes halo-in {
+  from {
+    opacity: 0;
+    scale: 0.85;
+  }
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+:root[data-theme='dark'] .splash-aurora {
+  background:
+    radial-gradient(40% 32% at 35% 45%, color-mix(in srgb, var(--accent) 55%, transparent), transparent 70%),
+    radial-gradient(36% 30% at 66% 56%, color-mix(in srgb, var(--accent-2) 42%, transparent), transparent 70%),
+    radial-gradient(32% 24% at 52% 34%, rgba(45, 212, 191, 0.3), transparent 70%);
+}
+
+:root[data-theme='dark'] .splash-glow {
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 60%, transparent), transparent);
+}
+
+/* The logo lands: grows in from slightly small, critically damped (no bounce). */
+.splash-mark {
+  box-shadow:
+    0 10px 40px color-mix(in srgb, var(--accent) 45%, transparent),
+    var(--shadow-float);
+  animation: mark-in 700ms var(--ease-out) both;
+}
+
+@keyframes mark-in {
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+    filter: blur(6px);
+  }
+}
+
+/* The wordmark resolves: fades up while its letters draw together. */
+.splash-word {
+  position: relative;
+  font: 600 1.625rem/1 var(--font-display);
+  letter-spacing: -0.02em;
+  animation: word-in 800ms var(--ease-out) 0.3s both;
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.35em;
+    filter: blur(6px);
+    transform: translateY(6px);
+  }
+}

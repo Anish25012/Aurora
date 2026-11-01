@@ -1,0 +1,115 @@
+/* =================================================================== discovery */
+
+/* A mix cover: the artist's photo washed in a colour of its own, with the
+   mix's name set on it, so each Daily Mix is easy to tell apart. */
+.mix-cover {
+  position: relative;
+  overflow: hidden;
+  background-color: hsl(var(--hue) 55% 42%);
+  background-position: center;
+  background-size: cover;
+}
+
+.mix-cover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, hsl(var(--hue) 80% 60% / 0.55), hsl(calc(var(--hue) + 40) 70% 30% / 0.85));
+  mix-blend-mode: multiply;
+}
+
+.mix-label {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  color: #fff;
+  font: 800 1.125rem/1.1 var(--font-display);
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+  text-align: left;
+}
+
+.mix-card .play-badge {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  bottom: auto;
+  width: 40px;
+  height: 40px;
+}
+
+.pill-button.outline svg {
+  vertical-align: -2px;
+}
+
+/* Loading: a thin ring turns around the play button until the sound arrives. */
+.icon-button.primary.is-buffering {
+  position: relative;
+}
+
+.icon-button.primary.is-buffering::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-button.primary.is-buffering::after {
+    animation-duration: 2.4s;
+  }
+}
+
+/* ---- ‹ › buttons at the ends of a sideways shelf ---- */
+.card-row-wrap {
+  position: relative;
+}
+
+.row-arrow {
+  position: absolute;
+  /* Centred on the artwork (cards are 168px wide, square art). */
+  top: 88px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-top: -18px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  box-shadow: var(--shadow-float);
+  color: var(--text);
+  cursor: pointer;
+  opacity: 0.85;
+  transition:
+    opacity var(--fast) ease,
+    transform var(--fast) var(--ease-out);
+}
+
+.row-arrow[hidden] {
+  display: none;
+}
+
+.row-arrow.is-prev {
+  left: calc(var(--gutter) * -0.5 - 4px);
+}
+
+.row-arrow.is-next {
+  right: calc(var(--gutter) * -0.5 - 4px);
+}
+
+.row-arrow:active {
+  transform: scale(0.92);
+}
+
+@media (hover: hover) {
+  .row-arrow:hover {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+}

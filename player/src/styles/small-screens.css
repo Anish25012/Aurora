@@ -1,0 +1,42 @@
+/* =================================================================== small screens */
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 16px;
+  }
+
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .page-header {
+    padding-top: 24px;
+  }
+
+  .track-row {
+    grid-template-columns: 70px minmax(0, 1fr) 44px;
+  }
+
+  .track-album {
+    display: none;
+  }
+
+  .card-row {
+    grid-auto-columns: 140px;
+  }
+
+  .player-bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .np-center .progress,
+  .np-right {
+    display: none;
+  }
+}

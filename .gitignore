@@ -1,0 +1,32 @@
+# --- Secrets: never commit these ---
+.env
+*.env
+.env.local
+!.env.example
+
+# --- Node (player/) ---
+node_modules/
+dist/
+coverage/
+
+# --- Python (archive/python-assistant/) ---
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.cache
+.cache-*
+.spotify_cache*
+credentials*.json
+client_secret*.json
+token*.json
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Personal files, not part of the project ---
+Claude outputs/
